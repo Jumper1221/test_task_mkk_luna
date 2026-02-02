@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 if TYPE_CHECKING:
-    from app.models.organizations import Organisation
+    from app.models.organizations import Organization
 
 
 class Activity(Base):
@@ -28,9 +28,9 @@ class Activity(Base):
         "Activity", back_populates="parent", cascade="all, delete-orphan"
     )
 
-    organizations: Mapped[list["Organisation"]] = relationship(
-        "Organisation",
-        secondary="organisation_activities",
+    organizations: Mapped[list["Organization"]] = relationship(
+        "Organization",
+        secondary="organization_activities",
         back_populates="activities",
         passive_deletes=True,
     )

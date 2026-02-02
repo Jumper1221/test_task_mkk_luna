@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 if TYPE_CHECKING:
-    from app.models.organizations import Organisation
+    from app.models.organizations import Organization
 
 
 class Phone(Base):
@@ -18,6 +18,6 @@ class Phone(Base):
         ForeignKey("organizations.id", ondelete="CASCADE"), nullable=False
     )
 
-    organization: Mapped["Organisation"] = relationship(
+    organization: Mapped["Organization"] = relationship(
         back_populates="phones", passive_deletes=True
     )

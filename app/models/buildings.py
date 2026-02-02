@@ -5,7 +5,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.db.base import Base
 
 if TYPE_CHECKING:
-    from app.models.organizations import Organisation
+    from app.models.organizations import Organization
 
 
 class Building(Base):
@@ -16,6 +16,6 @@ class Building(Base):
     latitude: Mapped[float] = mapped_column(nullable=False)
     longitude: Mapped[float] = mapped_column(nullable=False)
 
-    organizations: Mapped[list["Organisation"]] = relationship(
-        "Organisation", back_populates="building"
+    organizations: Mapped[list["Organization"]] = relationship(
+        "Organization", back_populates="building"
     )

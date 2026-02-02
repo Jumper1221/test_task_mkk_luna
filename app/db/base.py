@@ -18,4 +18,8 @@ class Base(DeclarativeBase):
 
 
 if "alembic" in sys.modules:
-    pass
+    from app.models.activities import Activity  # noqa: F401
+    from app.models.buildings import Building  # noqa: F401
+    from app.models.organization_activities import OrganizationActivity  # noqa: F401
+    from app.models.organizations import Organization  # noqa: F401
+    from app.models.phones import Phone  # noqa: F401

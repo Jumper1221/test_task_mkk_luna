@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from app.models.phones import Phone
 
 
-class Organisation(Base):
+class Organization(Base):
     __tablename__ = "organizations"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
@@ -28,7 +28,7 @@ class Organisation(Base):
 
     activities: Mapped[list["Activity"]] = relationship(
         "Activity",
-        secondary="organisation_activities",
+        secondary="organization_activities",
         back_populates="organizations",
         passive_deletes=True,
     )
