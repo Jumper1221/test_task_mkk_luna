@@ -6,7 +6,10 @@ from app.routes.dependencies import get_activity_service
 from app.schemas.responses import ActivityResponse
 from app.services.activity_service import ActivityService
 
-router = APIRouter(prefix="/activities", tags=["Деятельности"])
+router = APIRouter(
+    prefix="/activities",
+    tags=["Деятельности"],
+)
 
 
 @router.get(

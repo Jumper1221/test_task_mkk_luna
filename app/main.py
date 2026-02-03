@@ -3,9 +3,10 @@ from contextlib import asynccontextmanager
 from datetime import datetime
 from logging.config import dictConfig
 
-from fastapi import APIRouter, FastAPI, status
+from fastapi import APIRouter, Depends, FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.security import validate_api_key
 from app.routes.activities import router as activities_router
 from app.routes.buildings import router as buildings_router
 from app.routes.organizations import router as organizations_router
@@ -22,7 +23,19 @@ async def lifespan(app: FastAPI):
     print("Application is shutting down!")
 
 
-app = FastAPI(lifespan=lifespan, root_path="/api")
+app = FastAPI(
+    lifespan=lifespan,
+    dependencies=[Depends(validate_api_key)],
+    root_path="/api",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_tags=[
+        {
+            "name": "Authentication",
+            "description": "API ключ необходим для доступа ко всем эндпоинтам сервиса.",
+        }
+    ],
+)
 
 
 app.add_middleware(

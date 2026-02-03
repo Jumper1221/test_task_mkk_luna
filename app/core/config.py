@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     # ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     # # REFRESH_TOKEN_EXPIRE_DAYS: int = 1
 
+    # # API Keys
+    API_KEY: str = "static_api_key_for_development"  # Default for development
+    API_KEY_HEADER_NAME: str = "X-API-Key"  # Header name for API key
+
     # PostgreSQL
     POSTGRES_HOST: str = "postgres"
     POSTGRES_PORT: int = 5432
