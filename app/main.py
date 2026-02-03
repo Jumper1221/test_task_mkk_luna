@@ -6,6 +6,9 @@ from logging.config import dictConfig
 from fastapi import APIRouter, FastAPI, status
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routes.activities import router as activities_router
+from app.routes.buildings import router as buildings_router
+from app.routes.organizations import router as organizations_router
 from app.utils.lg import logging_config
 
 dictConfig(logging_config)
@@ -39,3 +42,8 @@ async def health_check():
         "status": "healthy",
         "timestamp": datetime.utcnow().isoformat(),
     }
+
+
+app.include_router(organizations_router)
+app.include_router(buildings_router)
+app.include_router(activities_router)
