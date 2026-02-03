@@ -19,5 +19,5 @@ class Phone(Base):
     )
 
     organization: Mapped["Organization"] = relationship(
-        back_populates="phones", passive_deletes=True
+        "Organization", back_populates="phones", passive_deletes=True
     )

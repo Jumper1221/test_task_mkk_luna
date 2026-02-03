@@ -23,7 +23,7 @@ class Organization(Base):
     )
 
     phones: Mapped[list["Phone"]] = relationship(
-        back_populates="organization", cascade="all, delete-orphan"
+        "Phone", back_populates="organization", cascade="all, delete-orphan"
     )
 
     activities: Mapped[list["Activity"]] = relationship(
