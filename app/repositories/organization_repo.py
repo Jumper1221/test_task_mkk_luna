@@ -55,7 +55,10 @@ class OrganizationRepository(BaseRepository):
         """Ищет организации, у которых есть ХОТЯ БЫ ОДНА деятельность из списка ids"""
         stmt = (
             self._base_query()
-            .join(Organization.activities)
+            .join(
+                OrganizationActivity,
+                OrganizationActivity.organization_id == Organization.id,
+            )
             .where(OrganizationActivity.activity_id.in_(activity_ids))
             .distinct()
         )

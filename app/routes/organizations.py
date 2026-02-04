@@ -66,7 +66,11 @@ async def get_organizations_by_activity(
     description="Поиск организаций по частичному совпадению с названием",
 )
 async def search_organizations_by_name(
-    q: str = Query(..., description="Часть названия организации для поиска"),
+    q: str = Query(
+        ...,
+        min_length=1,
+        description="Часть названия организации для поиска",
+    ),
     service: OrganizationService = Depends(get_org_service),
 ) -> List[OrganizationResponse]:
     """Поиск организации по названию"""
@@ -81,10 +85,22 @@ async def search_organizations_by_name(
     description="Поиск организаций в заданном радиусе от указанных координат",
 )
 async def search_organizations_by_location(
-    lat: float = Query(..., description="Широта в градусах (от -90 до 90)"),
-    lon: float = Query(..., description="Долгота в градусах (от -180 до 180)"),
+    lat: float = Query(
+        ...,
+        ge=-90,
+        le=90,
+        description="Широта в градусах (от -90 до 90)",
+    ),
+    lon: float = Query(
+        ...,
+        ge=-180,
+        le=180,
+        description="Долгота в градусах (от -180 до 180)",
+    ),
     radius: Optional[float] = Query(
-        5.0, description="Радиус поиска в километрах (по умолчанию 5 км)"
+        5.0,
+        gt=0,
+        description="Радиус поиска в километрах (по умолчанию 5 км)",
     ),
     service: OrganizationService = Depends(get_org_service),
 ) -> List[OrganizationResponse]:

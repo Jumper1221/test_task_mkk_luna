@@ -1,6 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, timezone
 from logging.config import dictConfig
 
 from fastapi import APIRouter, Depends, FastAPI, status
@@ -53,10 +53,11 @@ router = APIRouter()
 async def health_check():
     return {
         "status": "healthy",
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     }
 
 
 app.include_router(organizations_router)
 app.include_router(buildings_router)
 app.include_router(activities_router)
+app.include_router(router)

@@ -1,4 +1,3 @@
-import sys
 from datetime import datetime
 
 from sqlalchemy import DateTime, func
@@ -15,11 +14,3 @@ class Base(DeclarativeBase):
         onupdate=func.now(),
         nullable=False,
     )
-
-
-if "alembic" in sys.modules:
-    from app.models.activities import Activity  # noqa: F401
-    from app.models.buildings import Building  # noqa: F401
-    from app.models.organization_activities import OrganizationActivity  # noqa: F401
-    from app.models.organizations import Organization  # noqa: F401
-    from app.models.phones import Phone  # noqa: F401
