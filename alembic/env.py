@@ -4,14 +4,16 @@ from logging.config import fileConfig
 from dotenv import load_dotenv
 from sqlalchemy import engine_from_config, pool
 
+import app.models  # noqa: F401
 from alembic import context
 from app.db.base import Base
-import app.models  # noqa: F401
 
 load_dotenv()
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+is_from_docker = os.getenv("DOCKER_MIGRATIONS")
 
 host = os.getenv("POSTGRES_HOST")
 port = os.getenv("POSTGRES_PORT")
@@ -19,8 +21,12 @@ user = os.getenv("POSTGRES_USER")
 password = os.getenv("POSTGRES_PASSWORD")
 db_name = os.getenv("POSTGRES_DB")
 
-database_url = f"postgresql+psycopg2://{user}:{password}@localhost:{port}/{db_name}"
-config.set_main_option("sqlalchemy.url", database_url)
+if is_from_docker:
+    database_url = f"postgresql+psycopg2://{user}:{password}@{host}:{port}/{db_name}"
+    config.set_main_option("sqlalchemy.url", database_url)
+else:
+    database_url = f"postgresql+psycopg2://{user}:{password}@localhost:{port}/{db_name}"
+    config.set_main_option("sqlalchemy.url", database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

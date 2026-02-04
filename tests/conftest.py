@@ -1,6 +1,6 @@
 import asyncio
 import os
-from typing import AsyncGenerator
+from typing import AsyncGenerator, Generator
 
 import pytest
 import pytest_asyncio
@@ -53,14 +53,14 @@ def _to_async_url(database_url: str) -> str:
 
 
 @pytest.fixture(scope="session")
-def postgres_container() -> str:
+def postgres_container() -> Generator[str, None, None]:
     os.environ["TESTCONTAINERS_RYUK_DISABLED"] = "true"
 
     with PostgresContainer(
         "postgis/postgis:16-3.4",
-        username="test_user",
-        password="test_password",
-        dbname="test_db",
+        username="test",
+        password="test",
+        dbname="test",
     ) as postgres:
         database_url = postgres.get_connection_url()
         _set_test_db_env(database_url)
@@ -80,7 +80,7 @@ def migrated_database(postgres_container: str) -> str:
 
 
 @pytest.fixture(scope="session")
-def async_engine(migrated_database: str) -> AsyncEngine:
+def async_engine(migrated_database: str) -> Generator[AsyncEngine, None, None]:
     engine = create_async_engine(
         _to_async_url(migrated_database),
         poolclass=NullPool,
